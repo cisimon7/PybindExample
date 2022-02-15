@@ -1,5 +1,6 @@
 #include <iostream>
-#include "pybind11/pybind11.h"
+//#include "pybind11/pybind11.h"
+#include <pybind11/embed.h>
 
 void say_Hello() {
     std::cout << "Hello, World!" << std::endl;
@@ -19,7 +20,7 @@ struct MyData {
     virtual ~MyData() = default;
 };
 
-PYBIND11_MODULE(pybind11module, module) {
+PYBIND11_MODULE(modules_dir, module) {
     module.doc() = "Pybind11Module";
     module.def("say_Hello", &say_Hello);
     pybind11::class_<MyData>(module, "MyData")

@@ -10,15 +10,15 @@ set(Dependencies ${PROJECT_SOURCE_DIR}/dependencies)
 #Pybind11
 add_subdirectory(${Dependencies}/pybind11)
 
-#Module
+#Module created to be imported into python
 pybind11_add_module(
-    pybind11module
+    modules_dir
     ${Module_Source}/module.cpp
 )
 
 target_include_directories(
-    pybind11module
-    PRIVATE ${Module_Source}
+    modules_dir
+    PUBLIC ${Module_Source}
 )
 
 add_executable(PybindExample ${App_Source}/main.cpp)
@@ -33,3 +33,7 @@ target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE pybind11::embed
 )
+
+#target_compile_features(modules_dir PUBLIC cxx_std_20)
+#set_target_properties(modules_dir PROPERTIES SUFFIX ".so")
+#DCMAKE_OSX_ARCHITECTURES=arm64;x86_64
