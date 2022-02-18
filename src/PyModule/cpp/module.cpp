@@ -39,7 +39,7 @@ public:
     virtual ~MyData() = default;
 };
 
-PYBIND11_MODULE(example_module, module) {
+PYBIND11_MODULE(exampleModule, module) {
     module.doc() = "Pybind11Module";
 
     module.attr("the_answer") = 42;

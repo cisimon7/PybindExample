@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 23)
 set(App_Source ${PROJECT_SOURCE_DIR}/src/app)
 set(PyModule ${PROJECT_SOURCE_DIR}/src/PyModule)
 set(Dependencies ${PROJECT_SOURCE_DIR}/dependencies)
+# Set path to where you can access them and get autocompletion
+set(LIBRARY_ROOT ${PyModule}/venv/lib/python3.10/site-packages)
 
 #Pybind11
 add_subdirectory(${Dependencies}/pybind11-master)
@@ -13,7 +15,7 @@ add_subdirectory(${Dependencies}/eigen-3.4.0)
 
 #Module created to be imported into python
 pybind11_add_module(
-        example_module
+        exampleModule
         ${PyModule}/cpp/module.cpp
 )
 pybind11_add_module(
@@ -26,12 +28,12 @@ pybind11_add_module(
 )
 
 #Location of where to output binaries for modules_dir
-set_target_properties(example_module PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PyModule}/bindings)
-set_target_properties(Algebra PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PyModule}/bindings)
-set_target_properties(Geometry PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PyModule}/bindings)
+set_target_properties(exampleModule PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${LIBRARY_ROOT}/bindings)
+set_target_properties(Algebra PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${LIBRARY_ROOT}/bindings)
+set_target_properties(Geometry PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${LIBRARY_ROOT}/bindings)
 
 target_include_directories(
-        example_module
+        exampleModule
         PUBLIC ${PyModule}/cpp
 )
 

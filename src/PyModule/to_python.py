@@ -1,16 +1,18 @@
-import bindings.example_module as mod
+import bindings.exampleModule as Mod
+import sys
 
 if __name__ == '__main__':
+    print(sys.path)
     print("Hello Script")
 
-    print(mod.the_answer)
+    print(Mod.the_answer)
 
-    mod.say_Hello()
+    Mod.say_Hello()
 
-    mod.MyData(x=3, y=7).print()
-    mod.MyData(y=7).print()
+    Mod.MyData(x=3, y=7).print()
+    Mod.MyData(y=7).print()
 
-    data89 = mod.MyData(8, 9)
+    data89 = Mod.MyData(8, 9)
     print(data89)
 
     print(data89.__dict__)
