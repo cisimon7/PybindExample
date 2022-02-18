@@ -4,34 +4,60 @@ project(PybindExample)
 set(CMAKE_CXX_STANDARD 23)
 
 set(App_Source ${PROJECT_SOURCE_DIR}/src/app)
-set(Module_Source ${PROJECT_SOURCE_DIR}/src/module)
+set(PyModule ${PROJECT_SOURCE_DIR}/src/PyModule)
 set(Dependencies ${PROJECT_SOURCE_DIR}/dependencies)
 
 #Pybind11
-add_subdirectory(${Dependencies}/pybind11)
+add_subdirectory(${Dependencies}/pybind11-master)
+add_subdirectory(${Dependencies}/eigen-3.4.0)
 
 #Module created to be imported into python
 pybind11_add_module(
-    modules_dir
-    ${Module_Source}/module.cpp
+        example_module
+        ${PyModule}/cpp/module.cpp
+)
+pybind11_add_module(
+        Algebra
+        ${PyModule}/cpp/ExampleB.cpp
+)
+pybind11_add_module(
+        Geometry
+        ${PyModule}/cpp/Geometry.cpp
+)
+
+#Location of where to output binaries for modules_dir
+set_target_properties(example_module PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PyModule}/bindings)
+set_target_properties(Algebra PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PyModule}/bindings)
+set_target_properties(Geometry PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PyModule}/bindings)
+
+target_include_directories(
+        example_module
+        PUBLIC ${PyModule}/cpp
 )
 
 target_include_directories(
-    modules_dir
-    PUBLIC ${Module_Source}
+        Algebra
+        PUBLIC ${PyModule}/cpp
+        PRIVATE ${Dependencies}/eigen-3.4.0
+)
+
+target_include_directories(
+        Geometry
+        PUBLIC ${PyModule}/cpp
+        PRIVATE ${Dependencies}/eigen-3.4.0
 )
 
 add_executable(PybindExample ${App_Source}/main.cpp)
 
 target_include_directories(
-    ${PROJECT_NAME}
-    PRIVATE ${App_Source}
-    PRIVATE ${Module_Source}
+        ${PROJECT_NAME}
+        PRIVATE ${App_Source}
+        PRIVATE ${PyModule}/cpp
 )
 
 target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE pybind11::embed
+        ${PROJECT_NAME}
+        PRIVATE pybind11::embed
 )
 
 #target_compile_features(modules_dir PUBLIC cxx_std_20)
