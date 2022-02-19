@@ -9,7 +9,7 @@ set(Dependencies ${PROJECT_SOURCE_DIR}/dependencies)
 # Set path to where you can access them and get autocompletion
 set(LIBRARY_ROOT ${PyModule}/venv/lib/python3.10/site-packages)
 
-#Pybind11
+#[[Python Interpreter used for PyBind must be the same for running script calling the bindings]]
 add_subdirectory(${Dependencies}/pybind11-master)
 add_subdirectory(${Dependencies}/eigen-3.4.0)
 
